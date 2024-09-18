@@ -159,7 +159,44 @@ def return_vehicle():
 
 @app.route('/add', methods=['POST'])
 def add_vehicle():
-    return jsonify(message="Hello, World!")
+    try:
+        data = request.get_json()
+
+        vehicle = models.Vehicle(
+            branch=data['branch'],
+            category=data['category'],
+            colour=data['colour'],
+            day_rate=data['dayRate'],
+            fuel_economy=data['fuelEconomy'],
+            vehicle_id=data['id'],
+            make=data['make'],
+            model=data['model'],
+            number_seats=data['numberSeats'],
+            status=data['status'],
+            vin=data['vin'],
+            vrm=data['vrm'],
+            year=data['year']
+        )
+    except:
+        return jsonify({"error": "Failed to serialize vehicle from request"}), 422
+
+    vehicle_dict = vehicle.to_dict()
+
+    # Load the vehicle data from CSV
+    df = pd.read_csv(VEHICLE_CSV)
+
+    # Update id of inserted vehicle with auto-incremented id from csv file 
+    max = df['id'].max(axis=0)
+    vehicle_dict['id'] = max + 1
+
+    # Append the new vehicle data to the DataFrame
+    vehicle_df = pd.DataFrame([vehicle_dict])
+    df = pd.concat([df, vehicle_df], ignore_index=False)
+
+    # save dataframe changes back to the csv file
+    df.to_csv(VEHICLE_CSV, index=False)
+
+    return jsonify({"message": "Vehicle added successfully", "vehicle": vehicle.to_dict()}), 201
 
 @app.route('/remove')
 def remove_vehicle():
