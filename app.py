@@ -246,7 +246,7 @@ def show_damaged_vehicles():
     return Response(df.to_json(orient="records"), mimetype='application/json')
 
 @app.route('/mot')
-def show_damaged_vehicles():
+def show_service_required_vehicles():
     df = pd.read_csv(VEHICLE_CSV)
     df = df[df.status == 'SERVICEREQ']
     # df = df.head(n=5)
