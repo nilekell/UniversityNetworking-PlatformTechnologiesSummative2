@@ -165,7 +165,7 @@ def return_vehicle():
         # Return a 404 if the vehicle is not found
         return jsonify({"error": "Vehicle not found"}), 404
 
-@app.route('/add', methods=['POST'])
+@app.route('/new-vehicle', methods=['POST'])
 def add_vehicle():
     try:
         data = request.get_json()
@@ -242,6 +242,13 @@ def show_available_vehicles():
 def show_damaged_vehicles():
     df = pd.read_csv(VEHICLE_CSV)
     df = df[df.status == 'DAMAGED']
+    # df = df.head(n=5)
+    return Response(df.to_json(orient="records"), mimetype='application/json')
+
+@app.route('/mot')
+def show_damaged_vehicles():
+    df = pd.read_csv(VEHICLE_CSV)
+    df = df[df.status == 'SERVICEREQ']
     # df = df.head(n=5)
     return Response(df.to_json(orient="records"), mimetype='application/json')
 
