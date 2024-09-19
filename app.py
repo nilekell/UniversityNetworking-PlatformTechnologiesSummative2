@@ -245,8 +245,6 @@ def show_available_vehicles():
     # df = df.head(n=5)
     return Response(df.to_json(orient="records"), mimetype='application/json')
 
-
-
 # Run the app
 if __name__ == '__main__':
     startup()
