@@ -1,11 +1,11 @@
 class Vehicle:
-    def __init__(self, branch, category, colour, day_rate, fuel_economy, vehicle_id, make, model, number_seats, status, vin, vrm, year):
+    def __init__(self, branch, category, colour, day_rate, fuel_economy, vehicle_index, make, model, number_seats, status, vin, vrm, year):
         self.branch = branch
         self.category = category
         self.colour = colour
         self.day_rate = day_rate
         self.fuel_economy = fuel_economy
-        self.vehicle_id = vehicle_id
+        self.vehicle_index = vehicle_index
         self.make = make
         self.model = model
         self.number_seats = number_seats
@@ -22,7 +22,7 @@ class Vehicle:
             "colour": self.colour,
             "dayRate": self.day_rate,
             "fuelEconomy": self.fuel_economy,
-            "id": self.vehicle_id,
+            "index": self.vehicle_index,
             "make": self.make,
             "model": self.model,
             "numberSeats": self.number_seats,

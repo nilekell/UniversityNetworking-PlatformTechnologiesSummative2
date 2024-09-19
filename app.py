@@ -1,12 +1,20 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 import models
+import uuid
 
 VEHICLE_CSV = "/Users/nile/Documents/NCH/Coursework/Networks & Platform Technologies/vehicles-api/pythonProject/test-data/vehicle.csv"
 CUSTOMER_CSV = "/Users/nile/Documents/NCH/Coursework/Networks & Platform Technologies/vehicles-api/pythonProject/test-data/customer.csv"
 
 # Initialize the Flask app
 app = Flask(__name__)
+
+def startup():
+    df = pd.read_csv(VEHICLE_CSV)
+    if 'index' not in df.columns:
+        df = df.rename(columns={'id': 'index'})
+        df['index'] = [str(uuid.uuid4()) for _ in range(len(df))]
+        df.to_csv(VEHICLE_CSV, index=False)
 
 # Define a route for the default URL
 @app.route('/')
@@ -31,7 +39,7 @@ def find_vehicle():
             colour=vehicle_data['colour'],
             day_rate=vehicle_data['dayRate'],
             fuel_economy=vehicle_data['fuelEconomy'],
-            vehicle_id=vehicle_data['id'],
+            vehicle_index=vehicle_data['index'],
             make=vehicle_data['make'],
             model=vehicle_data['model'],
             number_seats=vehicle_data['numberSeats'],
@@ -70,7 +78,7 @@ def rent_vehicle():
             colour=vehicle_data['colour'],
             day_rate=vehicle_data['dayRate'],
             fuel_economy=vehicle_data['fuelEconomy'],
-            vehicle_id=vehicle_data['id'],
+            vehicle_index=vehicle_data['index'],
             make=vehicle_data['make'],
             model=vehicle_data['model'],
             number_seats=vehicle_data['numberSeats'],
@@ -126,7 +134,7 @@ def return_vehicle():
             colour=vehicle_data['colour'],
             day_rate=vehicle_data['dayRate'],
             fuel_economy=vehicle_data['fuelEconomy'],
-            vehicle_id=vehicle_data['id'],
+            vehicle_index=vehicle_data['index'],
             make=vehicle_data['make'],
             model=vehicle_data['model'],
             number_seats=vehicle_data['numberSeats'],
@@ -168,7 +176,7 @@ def add_vehicle():
             colour=data['colour'],
             day_rate=data['dayRate'],
             fuel_economy=data['fuelEconomy'],
-            vehicle_id=data['id'],
+            vehicle_index=data['index'],
             make=data['make'],
             model=data['model'],
             number_seats=data['numberSeats'],
@@ -185,9 +193,8 @@ def add_vehicle():
     # Load the vehicle data from CSV
     df = pd.read_csv(VEHICLE_CSV)
 
-    # Update id of inserted vehicle with auto-incremented id from csv file 
-    max = df['id'].max(axis=0)
-    vehicle_dict['id'] = max + 1
+    # Update id of inserted vehicle with new uuid
+    vehicle_dict['index'] = str(uuid.uuid4())
 
     # Append the new vehicle data to the DataFrame
     vehicle_df = pd.DataFrame([vehicle_dict])
@@ -217,4 +224,5 @@ def show_available_vehicles():
 
 # Run the app
 if __name__ == '__main__':
+    startup()
     app.run(debug=True)
