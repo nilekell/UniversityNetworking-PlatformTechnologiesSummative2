@@ -219,7 +219,7 @@ def remove_vehicle():
     else:
         return jsonify({"error": "Vehicle not found"}), 404
 
-@app.route('/all', methods=['GET'])
+@app.route('/vehicles', methods=['GET'])
 def show_all_vehicles():
     df = pd.read_csv(VEHICLE_CSV)
     return Response(df.to_json(orient="records"), mimetype='application/json')
