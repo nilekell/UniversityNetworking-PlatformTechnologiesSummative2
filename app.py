@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 import pandas as pd
 import models
 import uuid
@@ -219,9 +219,10 @@ def remove_vehicle():
     else:
         return jsonify({"error": "Vehicle not found"}), 404
 
-@app.route('/show-all')
+@app.route('/show-all', methods=['GET'])
 def show_all_vehicles():
-    return jsonify(message="Hello, World!")
+    df = pd.read_csv(VEHICLE_CSV)
+    return Response(df.to_json(orient="records"), mimetype='application/json')
 
 @app.route('/show-rented')
 def show_rented_vehicles():
