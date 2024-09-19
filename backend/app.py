@@ -98,7 +98,7 @@ def rent_vehicle():
             df.to_csv(VEHICLE_CSV, index=False)
 
             # Return the updated vehicle information
-            return jsonify(vehicle.to_dict())
+            return jsonify({"message": "Vehicle rented successfully", "vehicle": vehicle.to_dict()}), 201
         else:
             # Return a 409 Conflict if the vehicle is not available for rent
             return jsonify({"error": "Vehicle not available to rent."}), 409
@@ -154,7 +154,7 @@ def return_vehicle():
             df.to_csv(VEHICLE_CSV, index=False)
 
             # Return the updated vehicle information
-            return jsonify(vehicle.to_dict())
+            jsonify({"message": "Vehicle returned successfully", "vehicle": vehicle.to_dict()}), 201
         elif vehicle.status == "AVAILABLE":
             return jsonify({"error": "Vehicle is not currently rented."}), 409
         elif vehicle.status == "SERVICEREQ" or vehicle.status == "DAMAGED":
@@ -205,7 +205,7 @@ def add_vehicle():
 
     return jsonify({"message": "Vehicle added successfully", "vehicle": vehicle.to_dict()}), 201
 
-@app.route('/remove', methods=['POST'])
+@app.route('/remove-vehicle', methods=['DELETE'])
 def remove_vehicle():
     data = request.get_json()
     vin = data.get('vin')

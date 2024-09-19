@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Portal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #vehicle-form {
+            margin: 20px;
+        }
+        input {
+            padding: 5px;
+            margin: 5px;
+        }
+        button {
+            padding: 5px 10px;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Vehicle Information</h1>
+
+    <div id="vehicle-form">
+        <label for="vin">Enter Vehicle VIN:</label>
+        <input type="text" id="vin" name="vin" placeholder="Enter VIN" required>
+        <button onclick="getVehicle()">Get Vehicle</button>
+        <button onclick="rentVehicle()">Rent Vehicle</button>
+        <button onclick="returnVehicle()">Return Vehicle</button>
+        <button onclick="deleteVehicle()">Delete Vehicle</button>
+    </div>
+
+    <div id="result">
+        <h2>Vehicle Details</h2>
+        <pre id="vehicle-details"></pre>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
