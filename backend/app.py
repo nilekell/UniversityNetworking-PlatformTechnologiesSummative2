@@ -21,7 +21,7 @@ def startup():
 def hello_world():
     return jsonify(message="Hello, World!")
 
-@app.route('/find', methods=['GET'])
+@app.route('/vehicle', methods=['GET'])
 def find_vehicle():
     # vehicle identification number
     vin = request.args.get('vin')
@@ -165,7 +165,7 @@ def return_vehicle():
         # Return a 404 if the vehicle is not found
         return jsonify({"error": "Vehicle not found"}), 404
 
-@app.route('/new-vehicle', methods=['POST'])
+@app.route('/vehicle', methods=['POST'])
 def add_vehicle():
     try:
         data = request.get_json()
@@ -205,7 +205,7 @@ def add_vehicle():
 
     return jsonify({"message": "Vehicle added successfully.", "vehicle": vehicle.to_dict()}), 201
 
-@app.route('/remove-vehicle', methods=['DELETE'])
+@app.route('/vehicle', methods=['DELETE'])
 def remove_vehicle():
     data = request.get_json()
     vin = data.get('vin')
@@ -224,28 +224,28 @@ def show_all_vehicles():
     df = pd.read_csv(VEHICLE_CSV)
     return Response(df.to_json(orient="records"), mimetype='application/json')
 
-@app.route('/rented')
+@app.route('/rented', methods=['GET'])
 def show_rented_vehicles():
     df = pd.read_csv(VEHICLE_CSV)
     df = df[df.status == 'RENTED']
     # df = df.head(n=5)
     return Response(df.to_json(orient="records"), mimetype='application/json')
 
-@app.route('/available')
+@app.route('/available', methods=['GET'])
 def show_available_vehicles():
     df = pd.read_csv(VEHICLE_CSV)
     df = df[df.status == 'AVAILABLE']
     # df = df.head(n=5)
     return Response(df.to_json(orient="records"), mimetype='application/json')
 
-@app.route('/damaged')
+@app.route('/damaged', methods=['GET'])
 def show_damaged_vehicles():
     df = pd.read_csv(VEHICLE_CSV)
     df = df[df.status == 'DAMAGED']
     # df = df.head(n=5)
     return Response(df.to_json(orient="records"), mimetype='application/json')
 
-@app.route('/mot')
+@app.route('/mot', methods=['GET'])
 def show_service_required_vehicles():
     df = pd.read_csv(VEHICLE_CSV)
     df = df[df.status == 'SERVICEREQ']
