@@ -50,7 +50,7 @@ def find_vehicle():
         )
         return jsonify(vehicle.to_dict())
     else:
-        return jsonify({"error": "Vehicle not found"}), 404
+        return jsonify({"error": "Vehicle not found."}), 404
 
 @app.route('/rent', methods=['POST'])
 def rent_vehicle():
@@ -98,7 +98,7 @@ def rent_vehicle():
             df.to_csv(VEHICLE_CSV, index=False)
 
             # Return the updated vehicle information
-            return jsonify({"message": "Vehicle rented successfully", "vehicle": vehicle.to_dict()}), 201
+            return jsonify({"message": "Vehicle rented successfully.", "vehicle": vehicle.to_dict()}), 201
         else:
             # Return a 409 Conflict if the vehicle is not available for rent
             return jsonify({"error": "Vehicle not available to rent."}), 409
@@ -154,7 +154,7 @@ def return_vehicle():
             df.to_csv(VEHICLE_CSV, index=False)
 
             # Return the updated vehicle information
-            jsonify({"message": "Vehicle returned successfully", "vehicle": vehicle.to_dict()}), 201
+            return jsonify({"message": "Vehicle returned successfully.", "vehicle": vehicle.to_dict()}), 201
         elif vehicle.status == "AVAILABLE":
             return jsonify({"error": "Vehicle is not currently rented."}), 409
         elif vehicle.status == "SERVICEREQ" or vehicle.status == "DAMAGED":
@@ -186,7 +186,7 @@ def add_vehicle():
             year=data['year']
         )
     except:
-        return jsonify({"error": "Failed to serialize vehicle from request"}), 422
+        return jsonify({"error": "Failed to serialize vehicle from request."}), 422
 
     vehicle_dict = vehicle.to_dict()
 
@@ -203,7 +203,7 @@ def add_vehicle():
     # save dataframe changes back to the csv file
     df.to_csv(VEHICLE_CSV, index=False)
 
-    return jsonify({"message": "Vehicle added successfully", "vehicle": vehicle.to_dict()}), 201
+    return jsonify({"message": "Vehicle added successfully.", "vehicle": vehicle.to_dict()}), 201
 
 @app.route('/remove-vehicle', methods=['DELETE'])
 def remove_vehicle():
@@ -215,7 +215,7 @@ def remove_vehicle():
     if not df[df['vin'] == vin].empty:
         df = df[df['vin'] != vin]
         df.to_csv(VEHICLE_CSV, index=False)
-        return jsonify({"message": "Vehicle deleted successfully"}), 201
+        return jsonify({"message": "Vehicle deleted successfully."}), 201
     else:
         return jsonify({"error": "Vehicle not found"}), 404
 
