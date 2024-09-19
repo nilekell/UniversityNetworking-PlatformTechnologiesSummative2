@@ -9,7 +9,7 @@ async function getVehicle() {
 
     try {
         // Make a GET request to the Flask API
-        const response = await fetch(`http://127.0.0.1:5000/find?vin=${vin}`);
+        const response = await fetch(`http://127.0.0.1:5000/vehicle?vin=${vin}`);
         
         if (response.ok) {
             const data = await response.json();
@@ -97,7 +97,7 @@ async function deleteVehicle() {
     }
 
     try {
-        const response = await fetch("http://127.0.0.1:5000/remove-vehicle", {
+        const response = await fetch("http://127.0.0.1:5000/vehicle", {
             method: "DELETE",
             body: JSON.stringify({
                 vin: `${vin}`,
