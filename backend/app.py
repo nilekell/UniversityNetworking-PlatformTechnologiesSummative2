@@ -221,35 +221,19 @@ def remove_vehicle():
 
 @app.route('/vehicles', methods=['GET'])
 def show_all_vehicles():
+    status = request.args.get('status')
     df = pd.read_csv(VEHICLE_CSV)
-    return Response(df.to_json(orient="records"), mimetype='application/json')
+    if status == '':
+        pass
+    elif status == 'AVAILABLE':
+        df = df[df.status == 'AVAILABLE']
+    elif status == 'RENTED':
+        df = df[df.status == 'RENTED']
+    elif status == 'DAMAGED':
+        df = df[df.status == 'DAMAGED']
+    elif status == 'SERVICEREQ':
+        df = df[df.status == 'SERVICEREQ']
 
-@app.route('/rented', methods=['GET'])
-def show_rented_vehicles():
-    df = pd.read_csv(VEHICLE_CSV)
-    df = df[df.status == 'RENTED']
-    # df = df.head(n=5)
-    return Response(df.to_json(orient="records"), mimetype='application/json')
-
-@app.route('/available', methods=['GET'])
-def show_available_vehicles():
-    df = pd.read_csv(VEHICLE_CSV)
-    df = df[df.status == 'AVAILABLE']
-    # df = df.head(n=5)
-    return Response(df.to_json(orient="records"), mimetype='application/json')
-
-@app.route('/damaged', methods=['GET'])
-def show_damaged_vehicles():
-    df = pd.read_csv(VEHICLE_CSV)
-    df = df[df.status == 'DAMAGED']
-    # df = df.head(n=5)
-    return Response(df.to_json(orient="records"), mimetype='application/json')
-
-@app.route('/mot', methods=['GET'])
-def show_service_required_vehicles():
-    df = pd.read_csv(VEHICLE_CSV)
-    df = df[df.status == 'SERVICEREQ']
-    # df = df.head(n=5)
     return Response(df.to_json(orient="records"), mimetype='application/json')
 
 # Run the app
