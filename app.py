@@ -205,9 +205,19 @@ def add_vehicle():
 
     return jsonify({"message": "Vehicle added successfully", "vehicle": vehicle.to_dict()}), 201
 
-@app.route('/remove')
+@app.route('/remove', methods=['POST'])
 def remove_vehicle():
-    return jsonify(message="Hello, World!")
+    data = request.get_json()
+    vin = data.get('vin')
+
+    df = pd.read_csv(VEHICLE_CSV)
+
+    if not df[df['vin'] == vin].empty:
+        df = df[df['vin'] != vin]
+        df.to_csv(VEHICLE_CSV, index=False)
+        return jsonify({"message": "Vehicle deleted successfully"}), 201
+    else:
+        return jsonify({"error": "Vehicle not found"}), 404
 
 @app.route('/show-all')
 def show_all_vehicles():
