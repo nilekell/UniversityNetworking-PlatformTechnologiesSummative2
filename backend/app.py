@@ -3,8 +3,8 @@ import pandas as pd
 import models
 import uuid
 
-VEHICLE_CSV = "/Users/nile/Documents/NCH/Coursework/Networks & Platform Technologies/vehicles-api/pythonProject/test-data/vehicle.csv"
-CUSTOMER_CSV = "/Users/nile/Documents/NCH/Coursework/Networks & Platform Technologies/vehicles-api/pythonProject/test-data/customer.csv"
+VEHICLE_CSV = "/Users/nile/Documents/NCH/Coursework/Networks & Platform Technologies/project/backend/test-data/vehicle.csv"
+CUSTOMER_CSV = "/Users/nile/Documents/NCH/Coursework/Networks & Platform Technologies/project/backend/backend/test-data/customer.csv"
 
 # Initialize the Flask app
 app = Flask(__name__)
