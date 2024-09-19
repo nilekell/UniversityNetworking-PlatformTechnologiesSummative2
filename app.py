@@ -17,7 +17,7 @@ def startup():
         df.to_csv(VEHICLE_CSV, index=False)
 
 # Define a route for the default URL
-@app.route('/')
+@app.route('/', methods=['GET'])
 def hello_world():
     return jsonify(message="Hello, World!")
 
@@ -239,7 +239,7 @@ def show_available_vehicles():
     return Response(df.to_json(orient="records"), mimetype='application/json')
 
 @app.route('/damaged')
-def show_available_vehicles():
+def show_damaged_vehicles():
     df = pd.read_csv(VEHICLE_CSV)
     df = df[df.status == 'DAMAGED']
     # df = df.head(n=5)
