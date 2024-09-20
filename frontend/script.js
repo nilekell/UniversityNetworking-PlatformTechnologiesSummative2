@@ -8,9 +8,15 @@ async function getVehicle() {
     }
 
     try {
-        // Make a GET request to the Flask API
-        const response = await fetch(`http://127.0.0.1:5000/vehicle?vin=${vin}`);
-        
+        const token = localStorage.getItem('jwt-token');
+        const response = await fetch(`http://127.0.0.1:5000/vehicle?vin=${vin}`, {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": 'Bearer ' + token
+            }
+            });
+
         if (response.ok) {
             const data = await response.json();
             // Display the response in the frontend
@@ -33,13 +39,15 @@ async function rentVehicle() {
     }
 
     try {
+        const token = localStorage.getItem('jwt-token');
         const response = await fetch("http://127.0.0.1:5000/rent", {
             method: "POST",
             body: JSON.stringify({
                 vin: `${vin}`,
             }),
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                "Authorization": 'Bearer ' + token
             }
             });
 
@@ -65,13 +73,15 @@ async function returnVehicle() {
     }
 
     try {
+        const token = localStorage.getItem('jwt-token');
         const response = await fetch("http://127.0.0.1:5000/return", {
             method: "POST",
             body: JSON.stringify({
                 vin: `${vin}`,
             }),
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                "Authorization": 'Bearer ' + token
             }
             });
 
@@ -97,13 +107,15 @@ async function deleteVehicle() {
     }
 
     try {
+        const token = localStorage.getItem('jwt-token');
         const response = await fetch("http://127.0.0.1:5000/vehicle", {
             method: "DELETE",
             body: JSON.stringify({
                 vin: `${vin}`,
             }),
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
+                "Authorization": 'Bearer ' + token
             }
             });
 
@@ -118,4 +130,34 @@ async function deleteVehicle() {
         console.log(`error: ${error}`)
         document.getElementById('vehicle-details').textContent = 'Error: ' + error.message;
     }
+}
+
+async function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const errorMessage = document.getElementById('error-message');
+
+    const response = await fetch(`http://127.0.0.1:5000/login`, { 
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json",
+        },
+         body: JSON.stringify({ username, password }) 
+    })
+
+    if(!response.ok) {
+        const data = await response.json()
+        errorMessage.textContent =  data.error ?? 'Invalid username or password. Please try again.';
+        return
+    }
+
+    const data = await response.json()
+
+    // Save token in the localStorage
+    // Also you should set your user into the store using the setItem function
+    localStorage.setItem("jwt-token", data.token);
+
+    console.log('saved token to local storage')
+
+    window.location.href = 'portal.html';
 }

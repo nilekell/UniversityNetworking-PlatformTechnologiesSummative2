@@ -3,42 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicle Portal</title>
+    <title>Login - Vehicle Portal</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
         }
-        #vehicle-form {
-            margin: 20px;
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
         }
         input {
-            padding: 5px;
-            margin: 5px;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         button {
-            padding: 5px 10px;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
-        #result {
-            margin-top: 20px;
+        button:hover {
+            background-color: #218838;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <h1>Vehicle Information</h1>
+    <div class="login-container">
+        <h1>Login</h1>
+        <div id="error-message" class="error-message"></div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter Username" required>
 
-    <div id="vehicle-form">
-        <label for="vin">Enter Vehicle VIN:</label>
-        <input type="text" id="vin" name="vin" placeholder="Enter VIN" required>
-        <button onclick="getVehicle()">Get Vehicle</button>
-        <button onclick="rentVehicle()">Rent Vehicle</button>
-        <button onclick="returnVehicle()">Return Vehicle</button>
-        <button onclick="deleteVehicle()">Delete Vehicle</button>
-    </div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter Password" required>
 
-    <div id="result">
-        <h2>Vehicle Details</h2>
-        <pre id="vehicle-details"></pre>
+        <button onclick="login()">Login</button>
     </div>
 
     <script src="script.js"></script>
